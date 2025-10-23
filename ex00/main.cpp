@@ -2,16 +2,17 @@
 
 int main(int ac, char** av)
 {
-    BitcoinExchange btcExchange;
+    (void)av;
     if (ac != 2)
     {
-        std::cerr << "Usage: " << av[0] << " <input_file>" << std::endl;
+        std::cerr << "Errpr: could not open file" << std::endl;
         return 1;
     }
     else
     {
-        // Future implementation will go here
+        BitcoinExchange btcExchange;
+        btcExchange.load_data("data.csv");
+        //btcExchange.parseInputFile(av[1]); // to implement
     }
-    
     return 0;
 }
