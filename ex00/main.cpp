@@ -11,7 +11,8 @@ int main(int ac, char** av)
     else
     {
         BitcoinExchange btcExchange;
-        btcExchange.load_data("data.csv");
+        if (btcExchange.load_data("data.csv") == false)
+            return 1;
         //btcExchange.parseInputFile(av[1]); // to implement
     }
     return 0;
