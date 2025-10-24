@@ -27,11 +27,28 @@ bool BitcoinExchange::isValidRate(const std::string& rate)
         else if (!isdigit(rate[i]))
             return false;
     }
-    float value = atof(rate.c_str());
-    if (value < 0.0f)
+    try
+    {
+        float value = std::stof(rate.c_str());
+        if (value < 0.0f)
+        {
+            std::cerr << "Error: not a positive number." << std::endl;
+            return false;
+        }
+        if (value > 1000.f)
+        {
+            std::cerr << "Error: too large a number." << std::endl;
+            return false;
+        }
+        
+        _rate = value;
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error: invalid rate value\n";
         return false;
-    _rate = value;
-    return true;
+    }
 }
 
 bool BitcoinExchange::isValidDate(const std::string& date)
@@ -69,9 +86,10 @@ bool BitcoinExchange::isValidDate(const std::string& date)
     }
     int month = atoi(_month.c_str());
     int day = atoi(_day.c_str());
-    if (month < 1 || month > 12)
+    if (month < 1 || month > 12 || day < 1 || day > 31)
+    {
+        std::cerr << "Error: bad input =>  " << date << std::endl;
         return false;
-    if (day < 1 || day > 31)
-        return false;
+    }
     return true;
 }

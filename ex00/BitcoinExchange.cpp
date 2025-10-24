@@ -36,13 +36,10 @@ bool BitcoinExchange::parseInputFile(const std::string& filename)
             continue;
         size_t separator = line.find('|');
         std::string date = trim(line.substr(0, separator));
-        if(!isValidDate(date))
-            continue;
         std::string rate_value = trim(line.substr(separator + 1));
-        if (!isValidRate(rate_value))
+        if(!isValidDate(date) || !isValidRate(rate_value))
             continue;
     }
-    
     return true;
 }
 
