@@ -32,14 +32,30 @@ bool BitcoinExchange::parseInputFile(const std::string& filename)
     std::getline(file, line);
     while (std::getline(file, line))
     {
-        if(line.empty())
-            continue;
-        size_t separator = line.find('|');
-        std::string date = trim(line.substr(0, separator));
-        std::string rate_value = trim(line.substr(separator + 1));
-        if(!isValidDate(date) || !isValidRate(rate_value))
-            continue;
-
+        if(!line.empty())
+        {
+            size_t separator = line.find('|');
+            if(separator != std::string::npos)
+            {
+                std::string date = trim(line.substr(0, separator));
+                std::string rate_value = trim(line.substr(separator + 1));
+                if(isValidDate(date))
+                {
+                    if (isValidRate(rate_value))
+                    {
+                        float exchange_rate = findClosestRate(date);
+                        if (exchange_rate >= 0)
+                        {
+                            float res = _rate * exchange_rate;
+                            std::cout << date << " => " << _rate << " = " << res << std::endl;
+                        }
+                    }
+                    
+                }
+            }
+            else
+                std::cerr << "Error: bad input => " << line << std::endl;
+        }
     }
     return true;
 }
@@ -52,54 +68,41 @@ bool BitcoinExchange::load_data(const std::string& database)
         std::cerr << "Error: database not loaded\n";
         return false;
     }
-    //std::cout << "database opened successfully\n";
     std::string line;
     std::getline(file, line); // Skip header line
 
     while (std::getline(file, line))
     {
-        _isvalid = true;
-        if(line.empty())
-            _isvalid = false;
-        size_t sep = line.find(',');
-        if(sep == std::string::npos)
+        if(!line.empty())
         {
-            std::cerr << "Error: not a valid line on database\n";
-            _isvalid = false;
-        }
-        if (_isvalid)
-        {
-            std::string date = trim(line.substr(0, sep));
-            std::string rate = trim(line.substr(sep + 1));
-            float rate_val = std::stof(rate.c_str());
-           // if (isValidDate(date) && isValidRate(rate))
-            _db[date] = rate_val;
-            //_fulldate = date;
-            // if (!isValidDate(_fulldate))
-            // {
-            //     _isvalid = false;
-            //     std::cerr << "Bad date format\n";
-            // }
-            // if (_isvalid && !isValidRate(rate))
-            // {
-            //     _isvalid = false;
-            //     std::cerr << "Bad rate format\n";
-            // }
-            // if (_isvalid)
-            //     _db[_fulldate] = _rate;
+            size_t sep = line.find(',');
+            if(sep != std::string::npos)
+            {
+                std::string date = trim(line.substr(0, sep));
+                std::string rate = trim(line.substr(sep + 1));
+                try
+                {
+                    float rate_val = std::stof(rate.c_str());
+                    _db[date] = rate_val;
+                    
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << "Error: Invalid exchange rate in DB"<< '\n';
+                }
+            }
+            else
+            {
+                _isvalid = false;
+                std::cerr << "Error: invalid line format in DB\n";
+            }
         }
     }
     file.close();
+    if(_db.empty())
+    {
+        std::cerr << "Error: DataBase is empty\n";
+        return false;
+    }
     return true;
 }
-
-
-
-
-// void BitcoinExchange::printDatabase() const
-// {
-//     for (std::map<std::string, float>::const_iterator it = _db.begin(); it != _db.end(); ++it)
-//     {
-//         std::cout << "Date: " << it->first << " Rate: " << it->second << std::endl;
-//     }
-// }
