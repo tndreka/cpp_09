@@ -39,6 +39,7 @@ bool BitcoinExchange::parseInputFile(const std::string& filename)
         std::string rate_value = trim(line.substr(separator + 1));
         if(!isValidDate(date) || !isValidRate(rate_value))
             continue;
+
     }
     return true;
 }
@@ -70,19 +71,22 @@ bool BitcoinExchange::load_data(const std::string& database)
         {
             std::string date = trim(line.substr(0, sep));
             std::string rate = trim(line.substr(sep + 1));
-            _fulldate = date;
-            if (!isValidDate(_fulldate))
-            {
-                _isvalid = false;
-                std::cerr << "Bad date format\n";
-            }
-            if (_isvalid && !isValidRate(rate))
-            {
-                _isvalid = false;
-                std::cerr << "Bad rate format\n";
-            }
-            if (_isvalid)
-                _db[_fulldate] = _rate;
+            float rate_val = std::stof(rate.c_str());
+           // if (isValidDate(date) && isValidRate(rate))
+            _db[date] = rate_val;
+            //_fulldate = date;
+            // if (!isValidDate(_fulldate))
+            // {
+            //     _isvalid = false;
+            //     std::cerr << "Bad date format\n";
+            // }
+            // if (_isvalid && !isValidRate(rate))
+            // {
+            //     _isvalid = false;
+            //     std::cerr << "Bad rate format\n";
+            // }
+            // if (_isvalid)
+            //     _db[_fulldate] = _rate;
         }
     }
     file.close();
