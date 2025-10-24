@@ -28,6 +28,24 @@ bool BitcoinExchange::parseInputFile(const std::string& filename)
         std::cerr << "Error: could not open the file." << std::endl;
         return false;
     }
+    std::string line;
+    std::getline(file, line);
+    while (std::getline(file, line))
+    {
+        _isvalid = true;
+        if(line.empty())
+            continue;
+        size_t separator = line.find('|');
+        std::string date = trim(line.substr(0, separator));
+        if(!isValidDate(date))
+        {
+            std::cerr << "Error: bad input =>  " << date << std::endl;
+            _isvalid = false;
+            continue;
+        }
+    }
+    file.close();
+    
     return true;
 }
 
@@ -39,7 +57,7 @@ bool BitcoinExchange::load_data(const std::string& database)
         std::cerr << "Error: database not loaded\n";
         return false;
     }
-    std::cout << "database opened successfully\n";
+    //std::cout << "database opened successfully\n";
     std::string line;
     std::getline(file, line); // Skip header line
 
