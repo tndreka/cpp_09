@@ -2,10 +2,9 @@
 
 int main(int ac, char** av)
 {
-    (void)av;
     if (ac != 2)
     {
-        std::cerr << "Errpr: could not open file" << std::endl;
+        std::cerr << "Error: invalid arguments" << std::endl;
         return 1;
     }
     else
@@ -13,7 +12,8 @@ int main(int ac, char** av)
         BitcoinExchange btcExchange;
         if (btcExchange.load_data("data.csv") == false)
             return 1;
-        //btcExchange.parseInputFile(av[1]); // to implement
+        if (btcExchange.parseInputFile(av[1]) == false)
+            return 1;
     }
     return 0;
 }
