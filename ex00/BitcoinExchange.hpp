@@ -17,6 +17,7 @@ private:
     std::string _fulldate;
     float _rate;
     bool isValidDate(const std::string& date);
+    bool isValidRate(const std::string& rate);
     std::string trim(const std::string& line);
 public:
     BitcoinExchange();
@@ -26,5 +27,6 @@ public:
 
     void parseInputFile(const std::string& filename);
     bool load_data(const std::string& database);
+    //void printDatabase() const;
 };
 
