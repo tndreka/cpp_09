@@ -25,7 +25,7 @@ public:
     BitcoinExchange& operator=(const BitcoinExchange& other);
     ~BitcoinExchange();
 
-    void parseInputFile(const std::string& filename);
+    bool parseInputFile(const std::string& filename);
     bool load_data(const std::string& database);
     //void printDatabase() const;
 };
