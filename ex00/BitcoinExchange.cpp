@@ -24,16 +24,59 @@ BitcoinExchange::~BitcoinExchange()
 // {
 // }
 
-void BitcoinExchange::load_data(const std::string& database)
+bool BitcoinExchange::load_data(const std::string& database)
 {
     std::ifstream file(database.c_str());
-    if(file.is_open() == false) 
+    if (!file.is_open()) 
     {
         std::cerr << "Error: database not loaded\n";
+        return false;
     }
     std::cout << "database opened successfully\n";
     std::string line;
     std::getline(file, line); // Skip header line
 
+    while (std::getline(file, line))
+    {
+        _isvalid = true;
+        size_t sep = line.find(',');
+        if(sep == std::string::npos)
+        {
+            std::cerr << "Error: not a valid line on database\n";
+            _isvalid = false;
+        }
+        if (_isvalid)
+        {
+            std::string date = line.substr(0, sep);
+            _fulldate = date;
+            if (!isValidDate(_fulldate))
+            {
+                _isvalid = false;
+                std::cerr << "Bad date format\n";
+            }
+            
+        }
+    }
+    
+    return true;
+}
 
+bool BitcoinExchange::isValidDate(const std::string& date)
+{
+    //bad format
+    if(date.length() != 10 || date[4] != '-' || date[7] != '-')
+        return false;
+    _year = date.substr(0, 4);
+    _month = date.substr(5, 2);
+    _day = date.substr(8, 2);
+
+    for (size_t i = 0; i < _year.length(); i++)
+    {
+        if (!isdigit(_year[i]))
+        {
+            std::cout << "year error\n";
+            return false;
+        }
+    } 
+    return true;
 }
