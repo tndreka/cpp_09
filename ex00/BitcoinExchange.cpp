@@ -47,17 +47,18 @@ bool BitcoinExchange::load_data(const std::string& database)
         }
         if (_isvalid)
         {
-            std::string date = line.substr(0, sep);
+            std::string date = trim(line.substr(0, sep));
             _fulldate = date;
             if (!isValidDate(_fulldate))
             {
                 _isvalid = false;
                 std::cerr << "Bad date format\n";
             }
-            
+            else 
+                std::cout << "full date: " << _fulldate << std::endl;
         }
     }
-    
+    file.close();
     return true;
 }
 
@@ -79,4 +80,15 @@ bool BitcoinExchange::isValidDate(const std::string& date)
         }
     } 
     return true;
+}
+
+std::string BitcoinExchange::trim(const std::string& line)
+{
+    size_t start = 0;
+    size_t end = line.length();
+    while (start < end && isspace(static_cast<unsigned char>(line[start])))
+        start++;
+    while (end > start && isspace(static_cast<unsigned char>(line[end - 1])))
+        end--;
+    return line.substr(start, end - start);
 }

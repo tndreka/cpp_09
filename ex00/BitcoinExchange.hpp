@@ -11,6 +11,13 @@ class BitcoinExchange
 private:
     std::map<std::string, float> _db;
     bool _isvalid;
+    std::string _month;
+    std::string _year;
+    std::string _day;
+    std::string _fulldate;
+    float _rate;
+    bool isValidDate(const std::string& date);
+    std::string trim(const std::string& line);
 public:
     BitcoinExchange();
     BitcoinExchange(const BitcoinExchange& other);
@@ -18,6 +25,6 @@ public:
     ~BitcoinExchange();
 
     void parseInputFile(const std::string& filename);
-    void load_data(const std::string& database);
+    bool load_data(const std::string& database);
 };
 
