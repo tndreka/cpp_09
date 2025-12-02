@@ -4,7 +4,7 @@ CPP	=	c++
 
 CPPFLAGS	=	-Wall -Wextra -Werror -std=c++11
 
-SRC	=	main.cpp BitcoinExchange.cpp BitcoinExchange_utilities.cpp
+SRC	=	main.cpp RPN.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 

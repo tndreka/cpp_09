@@ -6,17 +6,18 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 22:18:51 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/02 14:58:17 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/02 15:26:15 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RPN_HPP
 #define RPN_HPP
 
-#include <string>
 #include <iostream>
-#include <sstream>
 #include <exception>
+#include <string>
+#include <sstream>
+#include <stack>
 
 class RPN
 {
