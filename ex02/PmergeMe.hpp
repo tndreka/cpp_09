@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:02:52 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:10:57 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:15:19 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ private:
     std::vector<int> _vector;
     std::deque<int> _deque;
     double _timer;
-        
+    void start_time();
 public:
     PmergeMe();
     PmergeMe(const PmergeMe& other);
