@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:02:52 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:36:22 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:50:59 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@ public:
     PmergeMe& operator=(const PmergeMe& other);
     ~PmergeMe();
     static int                 isValidInput(char *av[]);
+    template<typename T>
+    static void                  print_stack_before(T& container)
+    {
+        std::cout << "Before: ";
+        for (size_t i = 0; i < container.size(); ++i)
+        {
+            std::cout << container[i] << " ";
+        }
+        std::cout<< "\n";
+    }
 };
 
 
