@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:37:45 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 16:36:16 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ double PmergeMe::measure_time() const
 
 int PmergeMe::isValidInput(char* av[])
 {
-    for(int i = 0; av[i]; ++i)
+    for(int i = 1; av[i]; ++i)
     {
         std::string str(av[i]);
         for(size_t j = 0; j < str.size(); ++j)
@@ -59,3 +59,22 @@ int PmergeMe::isValidInput(char* av[])
     }
     return 0;
 }
+
+const std::vector<int>& PmergeMe::getVector() const
+{
+    return _vector;
+}
+
+void PmergeMe::sortVector(std::vector<int>& input)
+{
+    _vector = input;
+    start_time();
+    fordJohnsonVector(_vector);
+    std::cout << "Time to proccess a range of " << _vector.size() << " elements with std::vector: " << measure_time() << " us\n";
+}
+
+void PmergeMe::fordJohnsonVector(std::vector<int>& v)
+{
+    std::sort(v.begin(), v.end());
+}
+

@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:02:52 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:50:59 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 16:33:20 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ private:
     double              _timer;
     void                start_time();
     double              measure_time() const;
+    void                fordJohnsonVector(std::vector<int>& v);
 public:
     PmergeMe();
     PmergeMe(const PmergeMe& other);
@@ -37,15 +38,16 @@ public:
     ~PmergeMe();
     static int                 isValidInput(char *av[]);
     template<typename T>
-    static void                  print_stack_before(T& container)
+    static void                  print_stack_(T& container)
     {
-        std::cout << "Before: ";
         for (size_t i = 0; i < container.size(); ++i)
         {
             std::cout << container[i] << " ";
         }
         std::cout<< "\n";
     }
+    void sortVector(std::vector<int>& input);
+    const std::vector <int>& getVector() const;
 };
 
 
