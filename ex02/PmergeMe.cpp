@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 18:03:27 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:11:36 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,23 @@ void PmergeMe::sortVector(std::vector<int>& input)
 
 void PmergeMe::fordJohnsonVector(std::vector<int>& v)
 {
-    // std::sort(v.begin(), v.end());
-    
+    const size_t n = v.size();
+    if (n <= 1)
+        return;
+    //pair compare
+    std::vector<std::pair<int, int>> pairs;
+    pairs.reserve(n/2);
+    for (size_t i = 0; i + 1< n; i+= 2)
+    {
+        if(v[i] < v[i+1])
+            pairs.emplace_back(v[i], v[i+1]);
+        else
+            pairs.emplace_back(v[i+1], v[i]);
+    }
+    bool has_odd = (n & 1);
+    int odd_elem = 0;
+    if (odd_elem)
+        odd_elem = v.back();
 }
 
 
