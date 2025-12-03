@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:02:52 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:23:12 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:36:22 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@
 class PmergeMe
 {
 private:
-    std::vector<int> _vector;
-    std::deque<int> _deque;
-    double _timer;
-    void start_time();
-    double measure_time() const;
+    std::vector<int>    _vector;
+    std::deque<int>     _deque;
+    double              _timer;
+    void                start_time();
+    double              measure_time() const;
 public:
     PmergeMe();
     PmergeMe(const PmergeMe& other);
     PmergeMe& operator=(const PmergeMe& other);
     ~PmergeMe();
+    static int                 isValidInput(char *av[]);
 };
 
 

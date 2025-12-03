@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:24:40 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:37:45 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,20 @@ double PmergeMe::measure_time() const
     gettimeofday(&t, NULL);
     double now = t.tv_sec * 1000000 + t.tv_usec;
     return now - _timer;
+}
+
+int PmergeMe::isValidInput(char* av[])
+{
+    for(int i = 0; av[i]; ++i)
+    {
+        std::string str(av[i]);
+        for(size_t j = 0; j < str.size(); ++j)
+        {
+            if(!isdigit(str[j]))
+                return 1;
+        }
+        if(std::atoi(av[i]) <= 0)
+            return 1;
+    }
+    return 0;
 }
