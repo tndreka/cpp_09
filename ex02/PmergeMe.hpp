@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:02:52 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 16:33:20 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 16:40:58 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ private:
     void                start_time();
     double              measure_time() const;
     void                fordJohnsonVector(std::vector<int>& v);
+    void                fordJohnsonDeque(std::deque<int>& v);
 public:
     PmergeMe();
     PmergeMe(const PmergeMe& other);
@@ -47,7 +48,9 @@ public:
         std::cout<< "\n";
     }
     void sortVector(std::vector<int>& input);
+    void sortDeque(std::deque<int>& input);
     const std::vector <int>& getVector() const;
+    const std::deque <int>& getDeque() const;
 };
 
 

@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 16:36:16 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 16:42:59 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ const std::vector<int>& PmergeMe::getVector() const
     return _vector;
 }
 
+const std::deque<int>& PmergeMe::getDeque() const
+{
+    return _deque;
+}
+
 void PmergeMe::sortVector(std::vector<int>& input)
 {
     _vector = input;
@@ -78,3 +83,16 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     std::sort(v.begin(), v.end());
 }
 
+
+void PmergeMe::sortDeque(std::deque<int>& input)
+{
+    _deque = input;
+    start_time();
+    fordJohnsonDeque(_deque);
+    std::cout << "Time to proccess a range of " << _deque.size() << " elements with std::deque: " << measure_time() << " us\n";
+}
+
+void PmergeMe::fordJohnsonDeque(std::deque<int>& v)
+{
+    std::sort(v.begin(), v.end());
+}
