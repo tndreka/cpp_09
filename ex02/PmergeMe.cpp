@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 18:33:57 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:39:40 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,14 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
         index = last;
         ++js;
     }
-      
+    //append the rest
+    for (size_t i = 1; i < main.size(); ++i)
+    {
+         res.insert(std::lower_bound(res.begin(), res.end(), main[i]), main[i]);
+    }
+    if(odd_elem)
+         res.insert(std::lower_bound(res.begin(), res.end(), odd_elem), odd_elem);
+    v.swap(res);
 }
 
 
