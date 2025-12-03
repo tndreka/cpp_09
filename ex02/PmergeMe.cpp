@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 16:42:59 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:03:27 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,19 @@ int PmergeMe::isValidInput(char* av[])
     return 0;
 }
 
+int PmergeMe::isDup_vec() const
+{
+    for (size_t i = 0; i + 1 < _vector.size(); ++i)
+    {
+        for (size_t j = i + 1; j < _vector.size(); ++j)
+        {
+            if (_vector[i] == _vector[j])
+                return 1;
+        }
+    }
+    return 0;
+}
+
 const std::vector<int>& PmergeMe::getVector() const
 {
     return _vector;
@@ -73,14 +86,20 @@ const std::deque<int>& PmergeMe::getDeque() const
 void PmergeMe::sortVector(std::vector<int>& input)
 {
     _vector = input;
+    if (isDup_vec() == 1)
+    {
+        std::cerr << "Error: duplicate in vector\n";
+        exit(EXIT_FAILURE);
+    }
     start_time();
     fordJohnsonVector(_vector);
-    std::cout << "Time to proccess a range of " << _vector.size() << " elements with std::vector: " << measure_time() << " us\n";
+    std::cout << "Time to process a range of " << _vector.size() << " elements with std::vector: " << measure_time() << " us\n";
 }
 
 void PmergeMe::fordJohnsonVector(std::vector<int>& v)
 {
-    std::sort(v.begin(), v.end());
+    // std::sort(v.begin(), v.end());
+    
 }
 
 
