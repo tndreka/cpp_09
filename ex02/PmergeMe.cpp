@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 18:39:40 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 19:00:43 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,56 +118,57 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     if (n <= 1)
         return;
     //pair compare
-    std::vector<std::pair<int, int>> pairs;
-    pairs.reserve(n/2);
+    //std::vector<std::pair<int, int>> pairs;
+    _pairs.clear();
+    _pairs.reserve(n/2);
     for (size_t i = 0; i + 1< n; i+= 2)
     {
         if(v[i] < v[i+1])
-            pairs.emplace_back(v[i], v[i+1]);
+            _pairs.emplace_back(v[i], v[i+1]);
         else
-            pairs.emplace_back(v[i+1], v[i]);
+            _pairs.emplace_back(v[i+1], v[i]);
     }
     //handle odd element
-    bool has_odd = (n & 1);
-    int odd_elem = 0;
-    if (odd_elem)
-        odd_elem = v.back();
-    std::vector<int> main;
-    main.reserve(pairs.size());
-    for (size_t i = 0; i < pairs.size(); ++i)
+    _has_odd = (n & 1);
+    _oddElem = 0;
+    if (_oddElem)
+        _oddElem = v.back();
+    _main.clear();
+    _main.reserve(_pairs.size());
+    for (size_t i = 0; i < _pairs.size(); ++i)
     {
-        main.push_back(pairs[i].second);
+        _main.push_back(_pairs[i].second);
     }
-    fordJohnsonVector(main);
-    std::vector<int>res;
-    res.reserve(n);
-    res.push_back(pairs[0].first);
-    res.insert(std::lower_bound(res.begin(), res.end(), main[0]), main[0]);
+    fordJohnsonVector(_main);
+    _res.clear();
+    _res.reserve(n);
+    _res.push_back(_pairs[0].first);
+    _res.insert(std::lower_bound(_res.begin(), _res.end(), _main[0]), _main[0]);
     //insert remaining batch
-    size_t index = 1;
-    int    js = 1;    
-    while (index < pairs.size())
+    _index = 1;
+    _js = 1;    
+    while (_index < _pairs.size())
     {
-        int dist = jacobsthal(js + 1) - jacobsthal(js);
-        size_t last = index + dist;
-        if (last > pairs.size())
-            last = pairs.size();
-        for(size_t j = last; j-- > index;)
+        dist = jacobsthal(_js + 1) - jacobsthal(_js);
+        last = _index + dist;
+        if (last > _pairs.size())
+            last = _pairs.size();
+        for(size_t j = last; j-- > _index;)
         {
-            int val = pairs[j].first;
-            res.insert(std::lower_bound(res.begin(), res.end(), val), val);
+            val = _pairs[j].first;
+            _res.insert(std::lower_bound(_res.begin(), _res.end(), val), val);
         }
-        index = last;
-        ++js;
+        _index = last;
+        ++_js;
     }
     //append the rest
-    for (size_t i = 1; i < main.size(); ++i)
+    for (size_t i = 1; i < _main.size(); ++i)
     {
-         res.insert(std::lower_bound(res.begin(), res.end(), main[i]), main[i]);
+         _res.insert(std::lower_bound(_res.begin(), _res.end(), _main[i]), _main[i]);
     }
-    if(odd_elem)
-         res.insert(std::lower_bound(res.begin(), res.end(), odd_elem), odd_elem);
-    v.swap(res);
+    if(_oddElem)
+         _res.insert(std::lower_bound(_res.begin(), _res.end(), _oddElem), _oddElem);
+    v.swap(_res);
 }
 
 
@@ -181,5 +182,59 @@ void PmergeMe::sortDeque(std::deque<int>& input)
 
 void PmergeMe::fordJohnsonDeque(std::deque<int>& v)
 {
-    std::sort(v.begin(), v.end());
+    const size_t n = v.size();
+    if (n <= 1)
+        return;
+    //pair compare
+    //std::vector<std::pair<int, int>> pairs;
+    d_pairs.clear();
+    d_pairs.reserve(n/2);
+    for (size_t i = 0; i + 1< n; i+= 2)
+    {
+        if(v[i] < v[i+1])
+            d_pairs.emplace_back(v[i], v[i+1]);
+        else
+            d_pairs.emplace_back(v[i+1], v[i]);
+    }
+    //handle odd element
+    d_has_odd = (n & 1);
+    d_oddElem = 0;
+    if (d_oddElem)
+        d_oddElem = v.back();
+    d_main.clear();
+    d_main.reserve(_pairs.size());
+    for (size_t i = 0; i < d_pairs.size(); ++i)
+    {
+        d_main.push_back(d_pairs[i].second);
+    }
+    fordJohnsonVector(d_main);
+    d_res.clear();
+    d_res.reserve(n);
+    d_res.push_back(_pairs[0].first);
+    d_res.insert(std::lower_bound(d_res.begin(),d_res.end(), d_main[0]), d_main[0]);
+    //insert remaining batch
+    d_index = 1;
+    d_js = 1;    
+    while (d_index < d_pairs.size())
+    {
+        _dist = jacobsthal(d_js + 1) - jacobsthal(d_js);
+        _last = d_index + _dist;
+        if (_last > d_pairs.size())
+            _last = d_pairs.size();
+        for(size_t j = last; j-- > _index;)
+        {
+            val = _pairs[j].first;
+            _res.insert(std::lower_bound(_res.begin(), _res.end(), val), val);
+        }
+        _index = last;
+        ++_js;
+    }
+    //append the rest
+    for (size_t i = 1; i < _main.size(); ++i)
+    {
+         _res.insert(std::lower_bound(_res.begin(), _res.end(), _main[i]), _main[i]);
+    }
+    if(_oddElem)
+         _res.insert(std::lower_bound(_res.begin(), _res.end(), _oddElem), _oddElem);
+    v.swap(_res);
 }
