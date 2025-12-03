@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:18:18 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:24:40 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,12 @@ void PmergeMe::start_time()
     struct timeval t;
     gettimeofday(&t, NULL);
     _timer = t.tv_sec * 1000000 + t.tv_usec;
+}
+
+double PmergeMe::measure_time() const
+{
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    double now = t.tv_sec * 1000000 + t.tv_usec;
+    return now - _timer;
 }
