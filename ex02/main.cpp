@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 22:18:14 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 15:21:25 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:38:06 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@ int main(int ac, char* av[])
 {
     if (ac < 2)
     {
-        std::cerr << "Error : Usage ./PmergeMe <positive integer sequence\n>";
+        std::cerr << "Error : Usage ./PmergeMe <positive integer sequence>\n";
         return 1;
     }
     else
     {
         std::cout << "Start Sorting\n";
+        if(!PmergeMe::isValidInput(av))
+        {
+            std::cerr << "Error : Usage ./PmergeMe <positive integer sequence\n>";
+            return 1;
+        }
     }
     return 0;
 }
