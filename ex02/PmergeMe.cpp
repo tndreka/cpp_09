@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 18:18:42 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:33:57 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,22 @@ void PmergeMe::sortVector(std::vector<int>& input)
     std::cout << "Time to process a range of " << _vector.size() << " elements with std::vector: " << measure_time() << " us\n";
 }
 
+static int jacobsthal(int n)
+{
+    if(n == 0)
+        return 0;
+    if(n == 1)
+        return 1;
+    int a = 0, b = 1;
+    for (int i = 2; i < n; ++i)
+    {
+        int next = b + 2 * a;
+        a = b;
+        b = next;
+    }
+    return b;
+}
+
 void PmergeMe::fordJohnsonVector(std::vector<int>& v)
 {
     const size_t n = v.size();
@@ -127,7 +143,24 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     res.reserve(n);
     res.push_back(pairs[0].first);
     res.insert(std::lower_bound(res.begin(), res.end(), main[0]), main[0]);
-    
+    //insert remaining batch
+    size_t index = 1;
+    int    js = 1;    
+    while (index < pairs.size())
+    {
+        int dist = jacobsthal(js + 1) - jacobsthal(js);
+        size_t last = index + dist;
+        if (last > pairs.size())
+            last = pairs.size();
+        for(size_t j = last; j-- > index;)
+        {
+            int val = pairs[j].first;
+            res.insert(std::lower_bound(res.begin(), res.end(), val), val);
+        }
+        index = last;
+        ++js;
+    }
+      
 }
 
 
