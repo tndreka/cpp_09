@@ -169,6 +169,30 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     {
         res.push_back(pairs[0].second);
     }
+    if(pairs.size() > 1)
+    {
+        std::vector<int> pend;
+        for(size_t i = 1 ; i  < pairs.size(); ++i)
+        {
+            pend.push_back(pairs[i].first);
+        }
+        std::vector<int> jb_indicies;
+        size_t pos = 0;;
+        int c = 3;
+        while(pos < pend.size())
+        {
+            size_t j_idx = static_cast<size_t>(jacobsthal(c));
+            if(j_idx > pend.size())
+                j_idx =pend.size();
+            for(size_t i = j_idx; i > pos;  --i)
+            {
+                jb_indicies.push_back(i - 1);
+            }
+            pos = j_idx;
+            ++k;
+        }
+
+    }
 }   
 
 
