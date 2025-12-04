@@ -189,7 +189,7 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
                 jb_indicies.push_back(i - 1);
             }
             pos = j_idx;
-            ++k;
+            ++c;
         }
     }
     for(size_t i = 0; i < jb_indicies.size(); ++i)
@@ -198,6 +198,12 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
         std::vector<int>::iterator it = std::lower_bound(res.begin(), res.end(), val);
         res.insert(it, val);
     }
+    if(has_odd)
+    {
+        std::vector<int>::iterator it = std::lower_bound(res.begin(), res.end(), odd);
+        res.insert(it, odd);
+    }
+    v.swap(res);
 }   
 
 
@@ -216,5 +222,91 @@ void PmergeMe::sortDeque(std::deque<int>& input)
 
 void PmergeMe::fordJohnsonDeque(std::deque<int>& d)
 {
-
+      const size_t n = d.size();
+    if(d.size() <= 1)
+        return;
+    /* create pairs small and large */
+    std::vector<std::pair<int, int>> deque_pairs;
+    deque_pairs.reserve(n/2);
+    for(size_t i = 0; i + 1 < n; i += 2)
+    {
+        if(d[i] < d[i + 1])
+            deque_pairs.push_back(std::make_pair(d[i], d[i + 1]));
+        else 
+            deque_pairs.push_back(std::make_pair(d[i + 1], d[i]));
+    }
+    /* to handle odd num*/
+    bool hasodd = (n & 1);
+    int odd_n = 0;
+    if (hasodd)
+        odd_n = d.back();
+    /*sort  the largest pairs*/
+    if (deque_pairs.size() > 1)
+    {
+        std::vector<int> deque_large_pairs;
+        deque_large_pairs.reserve(deque_pairs.size());
+        for(size_t i = 0; i < deque_pairs.size(); ++i)
+        {
+            deque_large_pairs.push_back(deque_pairs[i].second);
+        }
+        fordJohnsonDeque(deque_large_pairs);
+        std::vector<std::pair<int, int>> deque_sorted_pairs;
+        deque_sorted_pairs.reserve(deque_pairs.size());
+        for(size_t i = 0; i < deque_large_pairs.size(); i++)
+        {
+            for(size_t j = 0; j < deque_pairs.size(); j++)
+            {
+                if(deque_pairs[j].second == deque_large_pairs[i])
+                {
+                    deque_sorted_pairs.push_back(deque_pairs[j]);
+                    deque_pairs[j].second = -1;
+                    break;
+                }
+            }
+        }
+        deque_pairs = deque_sorted_pairs;
+    }
+    std::vector<int> deque_res;
+    deque_res.reserve(n);
+    if(!deque_pairs.empty())
+        deque_res.push_back(pdeque_airs[0].first);
+    for(size_t i = 0; i < deque_pairs.size(); ++i)
+    {
+        deque_res.push_back(deque_pairs[0].second);
+    }
+    if(deque_pairs.size() > 1)
+    {
+        std::vector<int> deque_pend;
+        for(size_t i = 1 ; i  < deque_pairs.size(); ++i)
+        {
+            deque_pend.push_back(deque_pairs[i].first);
+        }
+        std::vector<int> deque_jb_indicies;
+        size_t deque_pos = 0;;
+        int c = 3;
+        while(deque_pos < deque_pend.size())
+        {
+            size_t j_idx = static_cast<size_t>(jacobsthal(c));
+            if(j_idx > deque_pend.size())
+                j_idx = deque_pend.size();
+            for(size_t i = j_idx; i > deque_pos;  --i)
+            {
+                deque_jb_indicies.push_back(i - 1);
+            }
+            deque_pos = j_idx;
+            ++k;
+        }
+    }
+    for(size_t i = 0; i < deque_jb_indicies.size(); ++i)
+    {
+        int deque_val = deque_pend[deque_jb_indicies[i]];
+        std::vector<int>::iterator it = std::lower_bound(deque_res.begin(), deque_res.end(), deque_val);
+        deque_res.insert(it, deque_val);
+    }
+    if(has_odd)
+    {
+        std::vector<int>::iterator it = std::lower_bound(deque_res.begin(), deque_res.end(), odd);
+        res.insert(it, odd);
+    }
+    v.swap(deque_res);
 }
