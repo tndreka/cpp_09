@@ -191,7 +191,12 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
             pos = j_idx;
             ++k;
         }
-
+    }
+    for(size_t i = 0; i < jb_indicies.size(); ++i)
+    {
+        int val = pend[jb_indicies[i]];
+        std::vector<int>::iterator it = std::lower_bound(res.begin(), res.end(), val);
+        res.insert(it, val);
     }
 }   
 
