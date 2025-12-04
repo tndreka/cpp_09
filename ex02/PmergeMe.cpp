@@ -6,13 +6,13 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/04 15:42:31 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/04 16:45:29 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe() : _timer(0), odd(0), has_odd(false)
+PmergeMe::PmergeMe() : _timer(0)
 {}
 
 PmergeMe::PmergeMe(const PmergeMe& other) : _vector(other._vector), _deque(other._deque)
@@ -24,11 +24,6 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other)
     {
         _timer = other._timer;
         _vector = other._vector;
-        pairs = other.pairs;
-        main = other.main;
-        res = other.res;
-        odd = other.odd;
-        has_odd = other.has_odd;
         _deque = other._deque;
     }
     return *this;
@@ -126,7 +121,7 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     if(v.size() <= 1)
         return;
     
-    pairs.clear();
+    std::vector<std::pair<int, int>> pairs;
     pairs.reserve(n/2);
     for (size_t i = 0; i +1 < n; i += 2)
     {
@@ -136,19 +131,81 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
             pairs.push_back(std::make_pair(v[i + 1], v[i]));
     }
     
-    has_odd = (n & 1);
-    odd = 0;
+    bool has_odd = (n & 1);
+    int  odd = 0;
     if(has_odd)
         odd = v.back();
-    main.clear();
+    
+    std::vector<int>    main;
     main.reserve(pairs.size());
     for (size_t i = 0; i < pairs.size(); ++i)
     {
         main.push_back(pairs[i].second);
     }
+    
     if(main.size() > 1)
         fordJohnsonVector(main);
     
+    std::vector<int>    res;
+    res.reserve(n);
+    
+    if(!pairs.empty())
+        res.push_back(pairs[0].first);
+    
+    for (size_t i = 0; i < main.size(); ++i)
+    {
+        res.push_back(main[i]);
+    }
+    
+    std::vector<int> pend;
+    for (size_t i = 1; i < pairs.size(); ++i)
+    {
+        pend.push_back(pairs[i].first);
+    }
+
+    if(!pend.empty())
+    {
+        std::vector<size_t> jacob_indices;
+        size_t pos = 0;
+        int k = 3;
+        
+        while (pos < pend.size())
+        {
+            size_t j_idx = static_cast<size_t>(jacobsthal(k));
+            if(j_idx > pend.size())
+                j_idx = pend.size();
+            for (size_t i = j_idx; i > pos; --i)
+            {
+                jacob_indices.push_back(i -1);
+            }
+            pos = j_idx;
+            ++k;
+        }
+        for (size_t i = 0; i < jacob_indices.size(); ++i)
+        {
+            int val = pend[jacob_indices[i]];
+            res.insert(std::lower_bound(res.begin(), res.end(), val), val);
+        }
+    }
+    
+    // size_t idx = 0;
+    // int      js = 0;
+    // while (idx < pairs.size())
+    // {
+    //     int jacob_current = jacobsthal(js);
+    //     size_t start = idx;
+    //     size_t end = std::min(static_cast<size_t>(jacob_current), pairs.size());
+    //     for (size_t j = end; j < start; --j)
+    //     {
+    //         val = pairs[j - 1].first;
+    //         res.insert(std::lower_bound(res.begin(), res.end(), val), val);
+    //     }
+    //     idx = end;
+    //     ++js;
+    // }
+    if(has_odd)
+        res.insert(std::lower_bound(res.begin(), res.end(), odd), odd);
+    v.swap(res);
 }
 
 
@@ -167,5 +224,5 @@ void PmergeMe::sortDeque(std::deque<int>& input)
 
 void PmergeMe::fordJohnsonDeque(std::deque<int>& d)
 {
-
+    (void)d;
 }
