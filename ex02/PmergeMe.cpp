@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/04 16:45:29 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/04 17:08:46 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,11 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     if(v.size() <= 1)
         return;
     
+    /*
+        PAIR CREATION
+        smaller value first , larger second;
+        
+    */
     std::vector<std::pair<int, int>> pairs;
     pairs.reserve(n/2);
     for (size_t i = 0; i +1 < n; i += 2)
@@ -130,21 +135,45 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
         else
             pairs.push_back(std::make_pair(v[i + 1], v[i]));
     }
-    
+    /* handle ODD*/
     bool has_odd = (n & 1);
     int  odd = 0;
     if(has_odd)
         odd = v.back();
     
-    std::vector<int>    main;
-    main.reserve(pairs.size());
-    for (size_t i = 0; i < pairs.size(); ++i)
+    // std::vector<int>    main;
+    // main.reserve(pairs.size());
+    // for (size_t i = 0; i < pairs.size(); ++i)
+    // {
+    //     main.push_back(pairs[i].second);
+    // }
+    if(pairs.size() > 1)
     {
-        main.push_back(pairs[i].second);
-    }
-    
-    if(main.size() > 1)
+        std::vector<int>    main;
+        main.reserve(pairs.size());
+        for (size_t i = 0; i < pairs.size(); ++i)
+        {
+            main.push_back(pairs[i].second);
+        }
         fordJohnsonVector(main);
+        std::vector<std::pair<int, int>> sorted_pairs;
+        sorted_pairs.reserve(pairs.size());
+        for (size_t i = 0; i < main.size(); ++i)
+        {
+            for (size_t j = 0; i < pairs.size(); ++j)
+            {
+                if (pairs[j].second == main[i])
+                {
+                    sorted_pairs.push_back(pairs[j]);
+                    pairs[j].second = -1;
+                    break;   
+                }
+            }
+        }
+        pairs = sorted_pairs;
+    }
+    // if(main.size() > 1)
+    //     fordJohnsonVector(main);
     
     std::vector<int>    res;
     res.reserve(n);
@@ -152,23 +181,20 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     if(!pairs.empty())
         res.push_back(pairs[0].first);
     
-    for (size_t i = 0; i < main.size(); ++i)
+    for (size_t i = 0; i < pairs.size(); ++i)
     {
-        res.push_back(main[i]);
+        res.push_back(pairs[i].second);
     }
-    
-    std::vector<int> pend;
-    for (size_t i = 1; i < pairs.size(); ++i)
+    if(pairs.size() > 1)
     {
-        pend.push_back(pairs[i].first);
-    }
-
-    if(!pend.empty())
-    {
+        std::vector<int> pend;
+        for (size_t i = 1; i < pairs.size(); ++i)
+        {
+            pend.push_back(pairs[i].first);
+        }
         std::vector<size_t> jacob_indices;
         size_t pos = 0;
         int k = 3;
-        
         while (pos < pend.size())
         {
             size_t j_idx = static_cast<size_t>(jacobsthal(k));
@@ -184,25 +210,10 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
         for (size_t i = 0; i < jacob_indices.size(); ++i)
         {
             int val = pend[jacob_indices[i]];
-            res.insert(std::lower_bound(res.begin(), res.end(), val), val);
+            std::vector<int>::iterator it = std::lower_bound(res.begin(), res.end(), val);
+            res.insert(it, val);
         }
     }
-    
-    // size_t idx = 0;
-    // int      js = 0;
-    // while (idx < pairs.size())
-    // {
-    //     int jacob_current = jacobsthal(js);
-    //     size_t start = idx;
-    //     size_t end = std::min(static_cast<size_t>(jacob_current), pairs.size());
-    //     for (size_t j = end; j < start; --j)
-    //     {
-    //         val = pairs[j - 1].first;
-    //         res.insert(std::lower_bound(res.begin(), res.end(), val), val);
-    //     }
-    //     idx = end;
-    //     ++js;
-    // }
     if(has_odd)
         res.insert(std::lower_bound(res.begin(), res.end(), odd), odd);
     v.swap(res);
