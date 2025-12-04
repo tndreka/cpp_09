@@ -161,7 +161,14 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
         }
         pairs = sorted_pairs;
     }
-    
+    std::vector<int> res;
+    res.reserve(n);
+    if(!pairs.empty())
+        res.push_back(pairs[0].first);
+    for(size_t i = 0; i < pairs.size(); ++i)
+    {
+        res.push_back(pairs[0].second);
+    }
 }   
 
 
