@@ -131,8 +131,11 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
             pairs.push_back(std::make_pair(v[i + 1], v[i]));
     }
     /* to handle odd num*/
-    
-}
+    bool has_odd = (n & 1);
+    int odd = 0;
+    if (has_odd)
+        odd = v.back();
+}   
 
 
 void PmergeMe::sortDeque(std::deque<int>& input)
