@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/03 19:00:43 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/04 15:14:45 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ static int jacobsthal(int n)
     return b;
 }
 
+
 void PmergeMe::fordJohnsonVector(std::vector<int>& v)
 {
     const size_t n = v.size();
@@ -166,7 +167,7 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     {
          _res.insert(std::lower_bound(_res.begin(), _res.end(), _main[i]), _main[i]);
     }
-    if(_oddElem)
+    if(has)
          _res.insert(std::lower_bound(_res.begin(), _res.end(), _oddElem), _oddElem);
     v.swap(_res);
 }
@@ -182,59 +183,61 @@ void PmergeMe::sortDeque(std::deque<int>& input)
 
 void PmergeMe::fordJohnsonDeque(std::deque<int>& v)
 {
-    const size_t n = v.size();
-    if (n <= 1)
-        return;
-    //pair compare
-    //std::vector<std::pair<int, int>> pairs;
-    d_pairs.clear();
-    d_pairs.reserve(n/2);
-    for (size_t i = 0; i + 1< n; i+= 2)
-    {
-        if(v[i] < v[i+1])
-            d_pairs.emplace_back(v[i], v[i+1]);
-        else
-            d_pairs.emplace_back(v[i+1], v[i]);
-    }
-    //handle odd element
-    d_has_odd = (n & 1);
-    d_oddElem = 0;
-    if (d_oddElem)
-        d_oddElem = v.back();
-    d_main.clear();
-    d_main.reserve(_pairs.size());
-    for (size_t i = 0; i < d_pairs.size(); ++i)
-    {
-        d_main.push_back(d_pairs[i].second);
-    }
-    fordJohnsonVector(d_main);
-    d_res.clear();
-    d_res.reserve(n);
-    d_res.push_back(_pairs[0].first);
-    d_res.insert(std::lower_bound(d_res.begin(),d_res.end(), d_main[0]), d_main[0]);
-    //insert remaining batch
-    d_index = 1;
-    d_js = 1;    
-    while (d_index < d_pairs.size())
-    {
-        _dist = jacobsthal(d_js + 1) - jacobsthal(d_js);
-        _last = d_index + _dist;
-        if (_last > d_pairs.size())
-            _last = d_pairs.size();
-        for(size_t j = last; j-- > _index;)
-        {
-            val = _pairs[j].first;
-            _res.insert(std::lower_bound(_res.begin(), _res.end(), val), val);
-        }
-        _index = last;
-        ++_js;
-    }
-    //append the rest
-    for (size_t i = 1; i < _main.size(); ++i)
-    {
-         _res.insert(std::lower_bound(_res.begin(), _res.end(), _main[i]), _main[i]);
-    }
-    if(_oddElem)
-         _res.insert(std::lower_bound(_res.begin(), _res.end(), _oddElem), _oddElem);
-    v.swap(_res);
+    std::cout << "same code commented out \n";
+    (void)v;
+    // const size_t n = v.size();
+    // if (n <= 1)
+    //     return;
+    // //pair compare
+    // //std::vector<std::pair<int, int>> pairs;
+    // d_pairs.clear();
+    // d_pairs.reserve(n/2);
+    // for (size_t i = 0; i + 1< n; i+= 2)
+    // {
+    //     if(v[i] < v[i+1])
+    //         d_pairs.emplace_back(v[i], v[i+1]);
+    //     else
+    //         d_pairs.emplace_back(v[i+1], v[i]);
+    // }
+    // //handle odd element
+    // d_has_odd = (n & 1);
+    // d_oddElem = 0;
+    // if (d_oddElem)
+    //     d_oddElem = v.back();
+    // d_main.clear();
+    // d_main.reserve(_pairs.size());
+    // for (size_t i = 0; i < d_pairs.size(); ++i)
+    // {
+    //     d_main.push_back(d_pairs[i].second);
+    // }
+    // fordJohnsonVector(d_main);
+    // d_res.clear();
+    // d_res.reserve(n);
+    // d_res.push_back(_pairs[0].first);
+    // d_res.insert(std::lower_bound(d_res.begin(),d_res.end(), d_main[0]), d_main[0]);
+    // //insert remaining batch
+    // d_index = 1;
+    // d_js = 1;    
+    // while (d_index < d_pairs.size())
+    // {
+    //     _dist = jacobsthal(d_js + 1) - jacobsthal(d_js);
+    //     _last = d_index + _dist;
+    //     if (_last > d_pairs.size())
+    //         _last = d_pairs.size();
+    //     for(size_t j = last; j-- > _index;)
+    //     {
+    //         val = _pairs[j].first;
+    //         _res.insert(std::lower_bound(_res.begin(), _res.end(), val), val);
+    //     }
+    //     _index = last;
+    //     ++_js;
+    // }
+    // //append the rest
+    // for (size_t i = 1; i < _main.size(); ++i)
+    // {
+    //      _res.insert(std::lower_bound(_res.begin(), _res.end(), _main[i]), _main[i]);
+    // }
+    // if(_oddElem)
+    //      _res.insert(std::lower_bound(_res.begin(), _res.end(), _oddElem), _oddElem);
+    // v.swap(_res);
 }
