@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/04 15:40:09 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/04 15:42:31 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,15 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     odd = 0;
     if(has_odd)
         odd = v.back();
+    main.clear();
+    main.reserve(pairs.size());
+    for (size_t i = 0; i < pairs.size(); ++i)
+    {
+        main.push_back(pairs[i].second);
+    }
+    if(main.size() > 1)
+        fordJohnsonVector(main);
+    
 }
 
 
