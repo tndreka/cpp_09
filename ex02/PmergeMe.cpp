@@ -12,7 +12,7 @@
 
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe() : _timer(0), odd(0), has_odd(false)
+PmergeMe::PmergeMe() : _timer(0)
 {}
 
 PmergeMe::PmergeMe(const PmergeMe& other) : _vector(other._vector), _deque(other._deque)
@@ -24,11 +24,6 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other)
     {
         _timer = other._timer;
         _vector = other._vector;
-        pairs = other.pairs;
-        main = other.main;
-        res = other.res;
-        odd = other.odd;
-        has_odd = other.has_odd;
         _deque = other._deque;
     }
     return *this;
@@ -122,8 +117,20 @@ void PmergeMe::sortVector(std::vector<int>& input)
 
 void PmergeMe::fordJohnsonVector(std::vector<int>& v)
 {
+    const size_t n = v.size();
     if(v.size() <= 1)
         return;
+    /* create pairs small and large */
+    std::vector<std::pair<int, int>> pairs;
+    pairs.reserve(n/2);
+    for(size_t i = 0; i + 1 < n; i += 2)
+    {
+        if(v[i] < v[i + 1])
+            pairs.push_back(std::make_pair(v[i], v[i + 1]));
+        else 
+            pairs.push_back(std::make_pair(v[i + 1], v[i]));
+    }
+    /* to handle odd num*/
     
 }
 
