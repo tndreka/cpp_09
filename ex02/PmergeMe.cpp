@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/04 15:32:34 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/04 15:38:10 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,19 @@ void PmergeMe::sortVector(std::vector<int>& input)
 
 void PmergeMe::fordJohnsonVector(std::vector<int>& v)
 {
+    const size_t n = v.size();
     if(v.size() <= 1)
         return;
+    
+    pairs.clear();
+    pairs.reserve(n/2);
+    for (size_t i = 0; i +1 < n; i += 2)
+    {
+        if(v[i] < v[i + 1])
+            pairs.push_back(std::make_pair(v[i], v[i + 1]));
+        else
+            pairs.push_back(std::make_pair(v[i + 1], v[i]));
+    }
     
 }
 
