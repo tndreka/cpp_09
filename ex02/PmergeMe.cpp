@@ -135,6 +135,33 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
     int odd = 0;
     if (has_odd)
         odd = v.back();
+    /*sort  the largest pairs*/
+    if (pairs.size() > 1)
+    {
+        std::vector<int> large_pairs;
+        large_pairs.reserve(pairs.size());
+        for(size_t i = 0; i < pairs.size(); ++i)
+        {
+            large_pairs.push_back(pairs[i].second);
+        }
+        fordJohnsonVector(large_pairs);
+        std::vector<std::pair<int, int>> sorted_pairs;
+        sorted_pairs.reserve(pairs.size());
+        for(size_t i = 0; i < large_pairs.size(); i++)
+        {
+            for(size_t j = 0; j < pairs.size(); j++)
+            {
+                if(pairs[j].second == large_pairs[i])
+                {
+                    sorted_pairs.push_back(pairs[j]);
+                    pairs[j].second = -1;
+                    break;
+                }
+            }
+        }
+        pairs = sorted_pairs;
+    }
+    
 }   
 
 
