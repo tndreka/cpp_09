@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:02:52 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/05 14:06:55 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/05 16:43:57 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ public:
         std::cout<< "\n";
     }
     int                 isDup_vec() const;
+    int                 isDup_deq() const;
     void sortVector(std::vector<int>& input);
     void sortDeque(std::deque<int>& input);
     const std::vector <int>& getVector() const;

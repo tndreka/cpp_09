@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 15:03:06 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/05 14:08:41 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/05 16:46:48 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void PmergeMe::parse_and_sort(int ac, char* av[])
         
         std::cout << "After: ";
         PmergeMe::print_stack_(lets_sort.getVector());
-        std::cout << "After: ";
+        // std::cout << "After: ";
         PmergeMe::print_stack_(lets_sort.getDeque());
 }
 
@@ -115,6 +115,18 @@ int PmergeMe::isDup_vec() const
     return 0;
 }
 
+int PmergeMe::isDup_deq() const
+{
+    for (size_t i = 0; i + 1 < _deque.size(); ++i)
+    {
+        for (size_t j = i + 1; j < _deque.size(); ++j)
+        {
+            if (_deque[i] == _deque[j])
+                return 1;
+        }
+    }
+    return 0;
+}
 
 static int jacobsthal(int n)
 {
@@ -181,7 +193,7 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
         sorted_pairs.reserve(pairs.size());
         for (size_t i = 0; i < main.size(); ++i)
         {
-            for (size_t j = 0; i < pairs.size(); ++j)
+            for (size_t j = 0; j < pairs.size(); ++j)
             {
                 if (pairs[j].second == main[i])
                 {
@@ -241,14 +253,14 @@ void PmergeMe::fordJohnsonVector(std::vector<int>& v)
 void PmergeMe::sortDeque(std::deque<int>& input)
 {
     _deque = input;
-    if (isDup_vec() == 1)
+    if (isDup_deq() == 1)
     {
-        std::cerr << "Error: duplicate in vector\n";
+        std::cerr << "Error: duplicate in deque\n";
         exit(EXIT_FAILURE);
     }
     start_time();
     fordJohnsonDeque(_deque);
-    std::cout << "Time to proccess a range of " << _deque.size() << " elements with std::deque: " << measure_time() << " us\n";
+    std::cout << "Time to process a range of " << _deque.size() << " elements with std::deque: " << measure_time() << " us\n";
 }
 
 void PmergeMe::fordJohnsonDeque(std::deque<int>& d)
