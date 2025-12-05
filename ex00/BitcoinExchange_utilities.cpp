@@ -105,7 +105,7 @@ bool BitcoinExchange::isValidDate(const std::string& date)
         std::cerr << "Error: bad input =>  " << date << std::endl;
         return false;
     }
-    if(month == 2 && day == 29 && year != 4 != 0)
+    if(month == 2 && day == 29 && year % 4 != 0)
     {
        std::cerr << "Error: bad input =>  " << date << std::endl;
         return false; 
