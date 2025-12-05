@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 22:20:04 by tndreka           #+#    #+#             */
-/*   Updated: 2025/12/02 15:27:34 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/12/05 16:39:47 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,16 @@ RPN::~RPN(){}
 
 bool RPN::isNum(const std::string &token) const
 {
-    std::istringstream iss(token);
-    double val;
-    char c;
-    
-    if (!(iss >> val))
+    if (token.length() != 1)
         return false;
-    if (iss >> c)
-        return false;
-    return true;
+    if (token[0] >= '0' && token[0] <= '9')
+        return true;
+    return false;
 }
 
 double RPN::strToDouble(const std::string &token) const
 {
-    std::istringstream iss(token);
-    double val;
-    iss >> val;
-    if (iss.fail())
-        throw std::runtime_error("Error: runtime error\"" + token + "\"");
-    return val; 
+    return token[0] - '0';
 }
 
 double RPN::evaluate(const std::string &expression)
